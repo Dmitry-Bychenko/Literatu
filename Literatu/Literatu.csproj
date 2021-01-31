@@ -2,6 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>Characters and Strings Routine</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/Dmitry-Bychenko/Literatu</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/Dmitry-Bychenko/Literatu</PackageProjectUrl>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>Literatu.snk.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
 </Project>
