@@ -207,19 +207,21 @@ namespace Literatu.Linq {
 
     // Uniform
     private class UniformEditCost : IEditCost<T> {
+      // Deletion costs 1
       public double DeletionPrice(T value) => 1.0;
-
+      // Edit costs 1 save the case when edit is not need
       public double EditPrice(T from, T to) => Equals(from, to) ? 0 : 1.0;
-
+      // Insertion costs 1
       public double InsertionPrice(T value) => 1.0;
     }
 
     // Double cost for edit
     private class InsertDeleteEditCost : IEditCost<T> {
+      // Deletion costs 1
       public double DeletionPrice(T value) => 1.0;
-
+      // Edit is either 2 (Insert + Delete) or 0 (no edit required)
       public double EditPrice(T from, T to) => Equals(from, to) ? 0 : 2.0;
-
+      // Insertion costs 1
       public double InsertionPrice(T value) => 1.0;
     }
 

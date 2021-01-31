@@ -12,4 +12,8 @@
     <AssemblyOriginatorKeyFile>Literatu.snk.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Text\RegularExpressions\" />
+  </ItemGroup>
+
 </Project>
