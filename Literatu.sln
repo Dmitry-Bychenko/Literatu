@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Literatu", "Literatu\Literatu.csproj", "{7DA181F6-286D-4901-A37C-092787F424CD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7DA181F6-286D-4901-A37C-092787F424CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DA181F6-286D-4901-A37C-092787F424CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DA181F6-286D-4901-A37C-092787F424CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DA181F6-286D-4901-A37C-092787F424CD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C9FA4400-3805-41E1-A4CB-CA83439CC3B1}
+	EndGlobalSection
+EndGlobal
