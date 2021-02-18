@@ -79,16 +79,14 @@ namespace Literatu.Text {
         }
     }
 
-    /* sort all type LMS suffixes */
     private static void LMSsort(IBaseArray T, int[] SA, IBaseArray C, IBaseArray B, int n, int k) {
       int i, j, b;
       int c0, c1;
 
-      /* compute SAl */
       if (C == B)
         GetCounts(T, C, n, k);
 
-      GetBuckets(C, B, k, false); /* find starts of buckets */
+      GetBuckets(C, B, k, false); 
 
       j = n - 1;
       b = B[c1 = T[j]];
@@ -137,8 +135,6 @@ namespace Literatu.Text {
       int c0, c1;
       bool diff;
 
-      /* compact all the sorted substrings into the first m items of SA
-          2*m must be not larger than n (proveable) */
       for (i = 0; (p = SA[i]) < 0; ++i)
         SA[i] = ~p;
 
@@ -153,7 +149,6 @@ namespace Literatu.Text {
           }
         }
 
-      /* store the length of all substrings */
       i = n - 1;
       j = n - 1;
       c0 = T[n - 1];
@@ -180,7 +175,6 @@ namespace Literatu.Text {
         }
       }
 
-      /* find the lexicographic names of all substrings */
       for (i = 0, name = 0, q = n, qlen = 0; i < m; ++i) {
         p = SA[i];
         plen = SA[m + (p >> 1)];
@@ -206,16 +200,14 @@ namespace Literatu.Text {
       return name;
     }
 
-    /* compute SA and BWT */
     private static void InduceSA(IBaseArray T, int[] SA, IBaseArray C, IBaseArray B, int n, int k) {
       int b, i, j;
       int c0, c1;
 
-      /* compute SAl */
       if (C == B)
         GetCounts(T, C, n, k);
 
-      GetBuckets(C, B, k, false); /* find starts of buckets */
+      GetBuckets(C, B, k, false); 
 
       j = n - 1;
       b = B[c1 = T[j]];
@@ -239,7 +231,7 @@ namespace Literatu.Text {
       if (C == B)
         GetCounts(T, C, n, k);
 
-      GetBuckets(C, B, k, true); /* find ends of buckets */
+      GetBuckets(C, B, k, true); 
 
       for (i = n - 1, b = B[c1 = 0]; 0 <= i; --i) {
         if (0 < (j = SA[i])) {
@@ -255,8 +247,6 @@ namespace Literatu.Text {
       }
     }
 
-    /* find the suffix array SA of T[0..n-1] in {0..k-1}^n
-       use a working space (excluding T and SA) of at most 2n+O(1) for a constant alphabet */
     private static int SaisMain(IBaseArray T, int[] SA, int fs, int n, int k) {
       IBaseArray C, B, RA;
       int i, j, b, m, p, q, name, pidx = 0, newfs;
@@ -296,10 +286,8 @@ namespace Literatu.Text {
         flags = 4 | 8;
       }
 
-      /* stage 1: reduce the problem by at least 1/2
-         sort all the LMS-substrings */
       GetCounts(T, C, n, k);
-      GetBuckets(C, B, k, true); /* find ends of buckets */
+      GetBuckets(C, B, k, true); 
 
       for (i = 0; i < n; ++i)
         SA[i] = 0;
@@ -346,8 +334,6 @@ namespace Literatu.Text {
         name = 0;
       }
 
-      /* stage 2: solve the reduced problem
-         recurse if names are not yet unique */
       if (name < m) {
         if ((flags & 4) != 0) {
           C = null;
@@ -372,7 +358,6 @@ namespace Literatu.Text {
 
         RA = new IntArray(SA, m + newfs);
         SaisMain(RA, SA, newfs, m, name);
-        //RA = null;
 
         i = n - 1;
         j = m * 2 - 1;
@@ -409,13 +394,11 @@ namespace Literatu.Text {
           B = new IntArray(new int[k], 0);
       }
 
-      /* stage 3: induce the result for the original problem */
       if ((flags & 8) != 0)
         GetCounts(T, C, n, k);
 
-      /* put all left-most S characters into their buckets */
       if (1 < m) {
-        GetBuckets(C, B, k, true); /* find ends of buckets */
+        GetBuckets(C, B, k, true); 
 
         i = m - 1;
         j = n;
