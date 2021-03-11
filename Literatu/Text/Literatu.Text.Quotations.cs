@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Literatu.Text {
 
@@ -81,7 +78,7 @@ namespace Literatu.Text {
       if (value is null)
         throw new ArgumentNullException(nameof(value));
 
-      StringBuilder sb = new (2 * value.Length + 2);
+      StringBuilder sb = new(2 * value.Length + 2);
 
       sb.Append(OpenQuotation);
 
@@ -97,7 +94,7 @@ namespace Literatu.Text {
       sb.Append(CloseQuotation);
 
       return sb.ToString();
-    } 
+    }
 
     /// <summary>
     /// Try to Remove Quotation 
@@ -115,7 +112,7 @@ namespace Literatu.Text {
       else if (value[0] != OpenQuotation || value[^1] != CloseQuotation)
         return false;
 
-      StringBuilder sb = new (value.Length);
+      StringBuilder sb = new(value.Length);
 
       for (int i = 1; i < value.Length - 1; ++i) {
         char ch = value[i];
@@ -177,8 +174,8 @@ namespace Literatu.Text {
     /// <param name="escapeOpenQuotation">Open Quotation Escapement</param>
     /// <param name="closeQuotation">Close Quotation Mark</param>
     /// <param name="escapeCloseQuotation">Close Quotation Escapement</param>
-    public Quotation(char openQuotation, 
-                     char escapeOpenQuotation, 
+    public Quotation(char openQuotation,
+                     char escapeOpenQuotation,
                      char closeQuotation,
                      char escapeCloseQuotation) {
       OpenQuotation = openQuotation;
@@ -311,7 +308,7 @@ namespace Literatu.Text {
     /// <summary>
     /// Equals 
     /// </summary>
-    public static bool operator == (Quotation left, Quotation right) {
+    public static bool operator ==(Quotation left, Quotation right) {
       if (ReferenceEquals(left, right))
         return true;
       if ((left is null) || (right is null))
@@ -383,7 +380,7 @@ namespace Literatu.Text {
     #endregion IEquatable<Quotation>
 
     #region ISerializable 
-    
+
     /// <summary>
     /// Serialization
     /// </summary>
@@ -430,7 +427,7 @@ namespace Literatu.Text {
     /// <param name="source">String to Enquote</param>
     /// <returns>Enquoted String</returns>
     public static string Enquote(this string source) => Enquote(source, null);
-           
+
     /// <summary>
     /// Try Dequote 
     /// </summary>

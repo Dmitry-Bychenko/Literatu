@@ -10,6 +10,7 @@
     <PackageProjectUrl>https://github.com/Dmitry-Bychenko/Literatu</PackageProjectUrl>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Literatu.snk.pfx</AssemblyOriginatorKeyFile>
+    <PackageReleaseNotes>String, Text, Regular Expressions algorithms</PackageReleaseNotes>
   </PropertyGroup>
 
 </Project>

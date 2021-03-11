@@ -86,7 +86,7 @@ namespace Literatu.Text {
       if (C == B)
         GetCounts(T, C, n, k);
 
-      GetBuckets(C, B, k, false); 
+      GetBuckets(C, B, k, false);
 
       j = n - 1;
       b = B[c1 = T[j]];
@@ -207,7 +207,7 @@ namespace Literatu.Text {
       if (C == B)
         GetCounts(T, C, n, k);
 
-      GetBuckets(C, B, k, false); 
+      GetBuckets(C, B, k, false);
 
       j = n - 1;
       b = B[c1 = T[j]];
@@ -231,7 +231,7 @@ namespace Literatu.Text {
       if (C == B)
         GetCounts(T, C, n, k);
 
-      GetBuckets(C, B, k, true); 
+      GetBuckets(C, B, k, true);
 
       for (i = n - 1, b = B[c1 = 0]; 0 <= i; --i) {
         if (0 < (j = SA[i])) {
@@ -287,7 +287,7 @@ namespace Literatu.Text {
       }
 
       GetCounts(T, C, n, k);
-      GetBuckets(C, B, k, true); 
+      GetBuckets(C, B, k, true);
 
       for (i = 0; i < n; ++i)
         SA[i] = 0;
@@ -398,7 +398,7 @@ namespace Literatu.Text {
         GetCounts(T, C, n, k);
 
       if (1 < m) {
-        GetBuckets(C, B, k, true); 
+        GetBuckets(C, B, k, true);
 
         i = m - 1;
         j = n;

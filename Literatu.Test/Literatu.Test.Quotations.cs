@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-using Literatu;
-using Literatu.Text;
+﻿using Literatu.Text;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Literatu.Test {
-  
+
   [TestClass]
   public class QuotationTests {
 
