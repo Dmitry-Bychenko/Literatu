@@ -44,6 +44,21 @@ namespace Literatu.Text {
 
       s_Pairs.Add('<', '>');
       s_Pairs.Add('>', '<');
+
+      opens.Clear();
+
+      for (char c = char.MinValue; c < char.MaxValue - 1; ++c) {
+        var category = char.GetUnicodeCategory(c);
+
+        if (category == UnicodeCategory.InitialQuotePunctuation)
+          opens.Push(c);
+        else if (category == UnicodeCategory.FinalQuotePunctuation) {
+          char open = opens.Pop();
+
+          s_Pairs.Add(open, c);
+          s_Pairs.Add(c, open);
+        }
+      }
     }
 
     #endregion Create
@@ -54,13 +69,17 @@ namespace Literatu.Text {
     /// if value is an open punctuation, e.g. [ ( opening quotation etc.
     /// </summary>
     public static bool IsOpen(char value) =>
-      value == '<' || char.GetUnicodeCategory(value) == UnicodeCategory.OpenPunctuation;
+      value == '<' || 
+      char.GetUnicodeCategory(value) == UnicodeCategory.OpenPunctuation ||
+      char.GetUnicodeCategory(value) == UnicodeCategory.InitialQuotePunctuation;
 
     /// <summary>
     /// if value is a close punctuation, e.g. ] ) opening quotation etc.
     /// </summary>
     public static bool IsClose(char value) =>
-      value == '>' || char.GetUnicodeCategory(value) == UnicodeCategory.ClosePunctuation;
+      value == '>' || 
+      char.GetUnicodeCategory(value) == UnicodeCategory.ClosePunctuation ||
+      char.GetUnicodeCategory(value) == UnicodeCategory.FinalQuotePunctuation;
 
     /// <summary>
     /// Reverse open and close punctuation, i.e ( => ), ] => [ etc.
