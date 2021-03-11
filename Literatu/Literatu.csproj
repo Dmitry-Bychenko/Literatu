@@ -11,6 +11,15 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Literatu.snk.pfx</AssemblyOriginatorKeyFile>
     <PackageReleaseNotes>String, Text, Regular Expressions algorithms</PackageReleaseNotes>
+    <PackageIcon>Literatu.png</PackageIcon>
+    <PackageTags>String Algorithms</PackageTags>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\Images\Literatu.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>
