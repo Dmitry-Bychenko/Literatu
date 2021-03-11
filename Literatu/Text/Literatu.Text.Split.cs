@@ -21,6 +21,10 @@ namespace Literatu.Text {
     N = 3,
     RN = 4,
     NR = 5,
+
+    UnicodeNewLine = 6,
+    UnicodeParagraph = 7,
+
     Windows = RN,
     Unix = N,
     Apple = NR,
@@ -50,6 +54,8 @@ namespace Literatu.Text {
         NewLine.R => "\r",
         NewLine.RN => "\r\n",
         NewLine.NR => "\n\r",
+        NewLine.UnicodeNewLine => "\u2028",
+        NewLine.UnicodeParagraph => "\u2029",
         _ => null,
       };
     }
