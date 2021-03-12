@@ -10,7 +10,7 @@ namespace Literatu {
   public static class Unicode {
     #region Private Data
 
-    private static HashSet<UnicodeCategory> s_Invisible = new() {
+    private static readonly HashSet<UnicodeCategory> s_Invisible = new() {
       UnicodeCategory.NonSpacingMark,
       UnicodeCategory.Control,
       UnicodeCategory.ModifierLetter,
