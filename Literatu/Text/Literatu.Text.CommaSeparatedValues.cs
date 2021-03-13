@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Literatu.IO;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -6,10 +7,8 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 
-using Literatu.IO;
-
 namespace Literatu.Text {
-  
+
   //-------------------------------------------------------------------------------------------------------------------
   //
   /// <summary>
@@ -79,9 +78,9 @@ namespace Literatu.Text {
       if (lines is null)
         throw new ArgumentNullException(nameof(lines));
 
-      List<string> items = new ();
+      List<string> items = new();
       bool inQuotation = false;
-      StringBuilder sb = new ();
+      StringBuilder sb = new();
 
       foreach (var line in lines) {
         if (line is null)
@@ -104,7 +103,7 @@ namespace Literatu.Text {
             else
               sb.Append(ch);
           }
-          else if (ch == QuotationMark) 
+          else if (ch == QuotationMark)
             inQuotation = true;
           else if (ch == Separator) {
             items.Add(sb.ToString());
@@ -149,7 +148,7 @@ namespace Literatu.Text {
       Separator = info.GetChar("separator");
       QuotationMark = info.GetChar("quotation");
       Comment = info.GetChar("comment");
-      Options = (CommaSeparateValueOptions) (info.GetInt32("options"));
+      Options = (CommaSeparateValueOptions)(info.GetInt32("options"));
 
       CoreUpdate();
     }
@@ -245,7 +244,7 @@ namespace Literatu.Text {
     /// <summary>
     /// Standard
     /// </summary>
-    public static CommaSeparateValue StandardWithComments { get; } = 
+    public static CommaSeparateValue StandardWithComments { get; } =
       new CommaSeparateValue(CommaSeparateValueOptions.Comments);
 
     /// <summary>
@@ -278,7 +277,7 @@ namespace Literatu.Text {
     /// Quotation
     /// </summary>
     public Quotation Quotation { get; private set; }
-       
+
     /// <summary>
     /// Separator
     /// </summary>
@@ -335,7 +334,7 @@ namespace Literatu.Text {
 
         try {
           CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
-          
+
           yield return string.Join(delimiter, line.Select(item => CoreEnquote(item)));
         }
         finally {
@@ -371,7 +370,7 @@ namespace Literatu.Text {
       if (stream is null)
         throw new ArgumentNullException(nameof(stream));
 
-      using StreamReader reader = new (stream, encoding, true, 8192, true);
+      using StreamReader reader = new(stream, encoding, true, 8192, true);
 
       return ParseCsv(reader);
     }
@@ -410,7 +409,7 @@ namespace Literatu.Text {
       if (fileName is null)
         throw new ArgumentNullException(nameof(fileName));
 
-      using FileStream fs = new (fileName, FileMode.Create);
+      using FileStream fs = new(fileName, FileMode.Create);
       using StreamWriter sw = new(fs, encoding);
 
       bool first = true;
@@ -419,9 +418,9 @@ namespace Literatu.Text {
         if (!first)
           sw.Write(Environment.NewLine);
 
-          sw.Write(line);
+        sw.Write(line);
 
-          first = false;
+        first = false;
       }
     }
 
@@ -473,7 +472,7 @@ namespace Literatu.Text {
     /// <summary>
     /// Equal
     /// </summary>
-    public static bool operator == (CommaSeparateValue left, CommaSeparateValue right) {
+    public static bool operator ==(CommaSeparateValue left, CommaSeparateValue right) {
       if (ReferenceEquals(left, right))
         return true;
       if ((left is null) || (right is null))
@@ -541,7 +540,7 @@ namespace Literatu.Text {
       info.AddValue("separator", Separator);
       info.AddValue("quotation", QuotationMark);
       info.AddValue("comment", Comment);
-      info.AddValue("options", (int) Options);
+      info.AddValue("options", (int)Options);
     }
 
     #endregion ISerializable 

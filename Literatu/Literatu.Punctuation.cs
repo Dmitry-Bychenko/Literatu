@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Literatu.Text {
 
@@ -27,7 +23,7 @@ namespace Literatu.Text {
     static Punctuation() {
       s_Pairs = new Dictionary<char, char>();
 
-      Stack<char> opens = new ();
+      Stack<char> opens = new();
 
       for (char c = char.MinValue; c < char.MaxValue - 1; ++c) {
         var category = char.GetUnicodeCategory(c);
@@ -69,7 +65,7 @@ namespace Literatu.Text {
     /// if value is an open punctuation, e.g. [ ( opening quotation etc.
     /// </summary>
     public static bool IsOpen(char value) =>
-      value == '<' || 
+      value == '<' ||
       char.GetUnicodeCategory(value) == UnicodeCategory.OpenPunctuation ||
       char.GetUnicodeCategory(value) == UnicodeCategory.InitialQuotePunctuation;
 
@@ -77,7 +73,7 @@ namespace Literatu.Text {
     /// if value is a close punctuation, e.g. ] ) opening quotation etc.
     /// </summary>
     public static bool IsClose(char value) =>
-      value == '>' || 
+      value == '>' ||
       char.GetUnicodeCategory(value) == UnicodeCategory.ClosePunctuation ||
       char.GetUnicodeCategory(value) == UnicodeCategory.FinalQuotePunctuation;
 

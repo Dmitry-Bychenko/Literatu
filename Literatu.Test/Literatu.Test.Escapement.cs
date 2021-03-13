@@ -1,7 +1,5 @@
-﻿using System;
+﻿using Literatu.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using Literatu.Text;
 
 namespace Literatu.Test {
 
@@ -35,7 +33,7 @@ namespace Literatu.Test {
     [DataRow("//")]
     [DataRow("///")]
     public void EscapeAndUnescape2(string value) {
-      Escaper escaper = new (new char[] { '\'' }, '/');
+      Escaper escaper = new(new char[] { '\'' }, '/');
 
       string result = escaper.Unescape(escaper.Escape(value));
 

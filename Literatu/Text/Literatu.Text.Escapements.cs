@@ -80,7 +80,7 @@ namespace Literatu.Text {
       StringBuilder sb = new(value.Length * 2);
 
       foreach (char c in value) {
-        if (c == EscapeSymbol && HasEscapeSymbol) 
+        if (c == EscapeSymbol && HasEscapeSymbol)
           sb.Append(c);
         else if (m_MustBeEscaped.Contains(c)) {
           if (HasEscapeSymbol)
@@ -107,7 +107,7 @@ namespace Literatu.Text {
 
       result = default;
 
-      StringBuilder sb = new (value.Length);
+      StringBuilder sb = new(value.Length);
 
       for (int i = 0; i < value.Length; ++i) {
         char c = value[i];
@@ -240,8 +240,8 @@ namespace Literatu.Text {
     /// <summary>
     /// Regular String
     /// </summary>
-    public static Escaper RegularString { get; } = new Escaper(new char[] { 
-      '(', ')', '[', ']', '{', '}', '|', '.', ',', '-', 
+    public static Escaper RegularString { get; } = new Escaper(new char[] {
+      '(', ')', '[', ']', '{', '}', '|', '.', ',', '-',
       '^', '$', '+', '*', '?', '!', '#'
     }, '\\');
 
@@ -283,7 +283,7 @@ namespace Literatu.Text {
     /// <summary>
     /// Equal
     /// </summary>
-    public static bool operator == (Escaper left, Escaper right) {
+    public static bool operator ==(Escaper left, Escaper right) {
       if (ReferenceEquals(left, right))
         return true;
       if ((left is null) || (right is null))
@@ -389,7 +389,7 @@ namespace Literatu.Text {
     /// <summary>
     /// Escape
     /// </summary>
-    public static string Escape(this string value, IEscaper escaper) { 
+    public static string Escape(this string value, IEscaper escaper) {
       if (escaper is null)
         throw new ArgumentNullException(nameof(escaper));
 

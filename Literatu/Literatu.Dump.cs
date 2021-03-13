@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 
 namespace Literatu {
 
@@ -32,7 +27,7 @@ namespace Literatu {
           return $"'\\u{((int)value):x4}'";
       }
       else
-        return $"'\\u{((int) value):x4}'";
+        return $"'\\u{((int)value):x4}'";
     }
 
     #endregion Algorithm
@@ -46,8 +41,8 @@ namespace Literatu {
       var category = char.GetUnicodeCategory(value);
 
       string result = string.Join(" ",
-        $"{(value.IsVisible() ? "'{value}'": "[invisible]")}",
-        $"(\\u{((int) value):x4})",
+        $"{(value.IsVisible() ? "'{value}'" : "[invisible]")}",
+        $"(\\u{((int)value):x4})",
         $"{category}"
       );
 
