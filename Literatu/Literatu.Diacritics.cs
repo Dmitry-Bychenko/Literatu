@@ -1,4 +1,6 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Collections.Generic; 
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -69,6 +71,43 @@ namespace Literatu {
         .Normalize(NormalizationForm.FormC);
     }
 
+    /// <summary>
+    /// Get All diacritics
+    /// </summary>
+    public static char[] Get(char value) => value
+      .ToString()
+      .Normalize(NormalizationForm.FormD)
+      .Where(c => CharUnicodeInfo.GetUnicodeCategory(c) == UnicodeCategory.NonSpacingMark)
+      .ToArray();
+
+    /// <summary>
+    /// Add diacritics
+    /// </summary>
+    public static char Add(char value, IEnumerable<char> diacritics) {
+      if (diacritics is null)
+        throw new ArgumentNullException(nameof(diacritics));
+
+      List<char> list = diacritics
+        .Where(c => CharUnicodeInfo.GetUnicodeCategory(c) == UnicodeCategory.NonSpacingMark)
+        .ToList();
+
+      if (list.Count <= 0)
+        return value;
+
+      list.Insert(0, value);
+
+      string result = string.Concat(string
+           .Concat(list)
+           .Normalize(NormalizationForm.FormD)
+           .Distinct())
+        .Normalize(NormalizationForm.FormC);
+
+      if (result.Length == 1)
+        return result[0];
+
+      throw new ArgumentException("Diacritics can't be added", nameof(diacritics));
+    }
+  
     #endregion Public
   }
 
