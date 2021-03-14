@@ -1,6 +1,6 @@
 # Literatu
 
-Literatų Street is a [pretty little lane](https://en.wikipedia.org/wiki/Literat%C5%B3_Street) in Vilnus. This .Net 5 library contains **character**, **string** and **regular expressions** algorithms. 
+Literatų Street is a [pretty little lane](https://en.wikipedia.org/wiki/Literat%C5%B3_Street) in Vilnius. This .Net 5 library contains **character**, **string** and **regular expressions** algorithms. 
 
 ## Some examples:
 
