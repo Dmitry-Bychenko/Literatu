@@ -14,6 +14,7 @@
     <PackageIcon>Literatu.png</PackageIcon>
     <PackageTags>String Algorithms</PackageTags>
     <Copyright>Copyright (c) 2021 by Dmitry Bychenko</Copyright>
+    <Authors>Dmitry Bychenko</Authors>
   </PropertyGroup>
 
   <ItemGroup>
