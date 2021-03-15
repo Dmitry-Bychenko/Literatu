@@ -1,19 +1,13 @@
-﻿using System;
+﻿using Literatu.Text;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Literatu;
-using Literatu.Text;
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Literatu.Test {
 
   [TestClass]
   public class CsvTests {
-    
+
     [TestMethod]
     public void TestParseCsv() {
 

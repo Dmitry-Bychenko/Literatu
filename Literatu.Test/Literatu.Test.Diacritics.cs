@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Literatu;
-
+﻿
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Literatu.Test {
-  
+
   [TestClass]
   public class DiacriticsTests {
     [TestMethod]

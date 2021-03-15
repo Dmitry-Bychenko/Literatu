@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic; 
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -107,7 +107,7 @@ namespace Literatu {
 
       throw new ArgumentException("Diacritics can't be added", nameof(diacritics));
     }
-  
+
     #endregion Public
   }
 
