@@ -1,0 +1,350 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Literatu.Collections.Generic {
+
+  //-------------------------------------------------------------------------------------------------------------------
+  //
+  /// <summary>
+  /// Aho-Corasick state machine for multiple patterns search
+  /// </summary>
+  /// <see cref="https://en.wikipedia.org/wiki/Aho%E2%80%93Corasick_algorithm"/>
+  /// <example>
+  /// <code>
+  /// string source = "abcabcaba_abbabcc";
+  /// 
+  /// string[] patterns = new string[] {
+  ///   "abc",
+  ///   "a",
+  ///   "bc",
+  ///   "ca",
+  ///   "bca",
+  /// };
+  /// 
+  /// AhoStateMachine<char> machine = new AhoStateMachine<char>(patterns);
+  /// 
+  /// var result = machine
+  ///   .Matches(source)
+  ///   .Select(match => $"{string.Concat(match.pattern),3} at {match.position}");
+  ///
+  /// Console.Write(string.Join(Environment.NewLine, result));
+  /// </code>
+  /// </example>
+  //
+  //-------------------------------------------------------------------------------------------------------------------
+
+  public sealed class AhoStateMachine<T> {
+    #region Internal Class
+
+    private sealed class SequenceEqualityComparer : IEqualityComparer<IEnumerable<T>> {
+
+      #region Create
+
+      /// <summary>
+      /// Standard Constructor
+      /// </summary>
+      public SequenceEqualityComparer(IEqualityComparer<T> comparer) {
+        InnerComparer = comparer ?? EqualityComparer<T>.Default;
+      }
+
+      /// <summary>
+      /// Standard Constructor
+      /// </summary>
+      public SequenceEqualityComparer() : this(null) { }
+
+      #endregion Create
+
+      #region Public
+
+      /// <summary>
+      /// Inner Comparer
+      /// </summary>
+      public IEqualityComparer<T> InnerComparer { get; }
+
+      #endregion Public
+
+      #region IEqualityComparer<IEnumerable<T>>
+
+      /// <summary>
+      /// Equals
+      /// </summary>
+      public bool Equals(IEnumerable<T> x, IEnumerable<T> y) =>
+        Enumerable.SequenceEqual(x, y, InnerComparer);
+
+      /// <summary>
+      /// Hash Code
+      /// </summary>
+      public int GetHashCode(IEnumerable<T> obj) {
+        if (obj is null)
+          return -1;
+        else if (obj is IReadOnlyList<T> list)
+          return list.Count;
+        else if (obj is ICollection<T> collection)
+          return collection.Count;
+        else if (obj is IReadOnlyCollection<T> rc)
+          return rc.Count;
+        else if (obj is T[] arr)
+          return arr.Length;
+
+        return -2;
+      }
+
+      #endregion IEqualityComparer<IEnumerable<T>>
+    }
+
+    private class Node {
+      #region Private Data
+
+      private readonly Dictionary<T, Node> m_Edges;
+
+      #endregion Private Data
+
+      #region Algorithm
+
+      internal Node Add(T item) {
+        if (m_Edges.TryGetValue(item, out var result))
+          return result;
+
+        result = new Node(m_Edges.Comparer);
+
+        m_Edges.Add(item, result);
+
+        return result;
+      }
+
+      #endregion Algorithm
+
+      #region Create
+
+      public Node(IEqualityComparer<T> comparer) {
+        m_Edges = new Dictionary<T, Node>(comparer);
+      }
+
+      #endregion Create
+
+      #region Public
+
+      /// <summary>
+      /// Is Final
+      /// </summary>
+      public bool IsFinal => Pattern is not null;
+
+      /// <summary>
+      /// Pattern
+      /// </summary>
+      public IReadOnlyList<T> Pattern { get; internal set; }
+
+      /// <summary>
+      /// Final Edge
+      /// </summary>
+      public Node FinalEdge { get; internal set; }
+
+      /// <summary>
+      /// Suffix Edge
+      /// </summary>
+      public Node SuffixEdge { get; internal set; }
+
+      /// <summary>
+      /// Edge
+      /// </summary>
+      public IReadOnlyDictionary<T, Node> Edges => m_Edges;
+
+      /// <summary>
+      /// All Patterns
+      /// </summary>
+      public IEnumerable<IReadOnlyList<T>> AllPatterns() {
+        if (Pattern is not null)
+          yield return Pattern;
+
+        for (Node node = FinalEdge; node is not null; node = node.FinalEdge)
+          yield return node.Pattern;
+      }
+
+      /// <summary>
+      /// Move Next 
+      /// </summary>
+      public (Node node, bool hasPattern) MoveNext(T value) {
+        if (m_Edges.TryGetValue(value, out Node result))
+          return (result, true);
+
+        Node node = SuffixEdge;
+
+        for (; node is not null; node = node.SuffixEdge) {
+          if (node.m_Edges.TryGetValue(value, out result))
+            return (result, true);
+        }
+
+        return (node, false);
+      }
+
+      #endregion Public
+    }
+
+    #endregion Internal Class
+
+    #region Private Data
+
+    private readonly Node m_Root;
+
+    #endregion Private Data
+
+    #region Algorithm
+
+    private (Dictionary<List<T>, Node> direct, Dictionary<Node, List<T>> reverse) CoreBuildDictionaries() {
+      Dictionary<List<T>, Node> direct = new (new SequenceEqualityComparer(Comparer));
+      Dictionary<Node, List<T>> reverse = new ();
+
+      Queue<(Node node, List<T> pattern)> agenda = new ();
+
+      agenda.Enqueue((m_Root, new List<T>()));
+
+      while (agenda.Count > 0) {
+        var (node, pattern) = agenda.Dequeue();
+
+        direct.Add(pattern, node);
+        reverse.Add(node, pattern);
+
+        foreach (var pair in node.Edges) {
+          List<T> list = new (pattern) { pair.Key };
+
+          agenda.Enqueue((pair.Value, list));
+        }
+      }
+
+      return (direct, reverse);
+    }
+
+    private HashSet<Node> CoreBuildNodes() {
+      HashSet<Node> result = new () { m_Root };
+
+      foreach (var pattern in Patterns) {
+        Node node = m_Root;
+
+        foreach (T item in pattern) {
+          node = node.Add(item);
+
+          result.Add(node);
+        }
+
+        node.Pattern = pattern;
+      }
+
+      return result;
+    }
+
+    private void CoreBuildSuffixes(HashSet<Node> nodes) {
+      Dictionary<List<T>, Node> direct;
+      Dictionary<Node, List<T>> reverse;
+
+      (direct, reverse) = CoreBuildDictionaries();
+
+      foreach (Node node in nodes) {
+        LinkedList<T> sequence = new (reverse[node]);
+
+        while (sequence.Count > 0) {
+          sequence.RemoveFirst();
+
+          if (direct.TryGetValue(sequence.ToList(), out Node parent)) {
+            node.SuffixEdge = parent;
+
+            break;
+          }
+        }
+      }
+
+      m_Root.SuffixEdge = null;
+    }
+
+    private static void CoreBuildFinals(HashSet<Node> nodes) {
+      foreach (Node parent in nodes) {
+        for (Node node = parent.SuffixEdge; node is not null; node = node.SuffixEdge)
+          if (node.IsFinal) {
+            parent.FinalEdge = node;
+
+            break;
+          }
+      }
+    }
+
+    private void CoreBuild() {
+      var nodes = CoreBuildNodes();
+
+      CoreBuildSuffixes(nodes);
+      CoreBuildFinals(nodes);
+    }
+
+    #endregion Algorithm
+
+    #region Create
+
+    /// <summary>
+    /// Standard constructor
+    /// </summary>
+    /// <param name="patterns">Patterns to find</param>
+    /// <param name="comparer">Comparer to use</param>
+    public AhoStateMachine(IEnumerable<IEnumerable<T>> patterns, IEqualityComparer<T> comparer) {
+      if (patterns is null)
+        throw new ArgumentNullException(nameof(patterns));
+
+      Comparer = comparer ?? EqualityComparer<T>.Default;
+
+      Patterns = patterns
+        .Where(pattern => pattern is not null)
+        .Select(pattern => pattern.ToList())
+        .Where(pattern => pattern.Count > 0)
+        .ToList();
+
+      m_Root = new Node(Comparer);
+
+      CoreBuild();
+    }
+
+    /// <summary>
+    /// Standard constructor
+    /// </summary>
+    /// <param name="patterns">Patterns to find</param>
+    public AhoStateMachine(IEnumerable<IEnumerable<T>> patterns)
+      : this(patterns, null) { }
+
+    #endregion Create
+
+    #region Public
+
+    /// <summary>
+    /// Comparer
+    /// </summary>
+    public IEqualityComparer<T> Comparer { get; }
+
+    /// <summary>
+    /// Patterns
+    /// </summary>
+    public IReadOnlyList<IReadOnlyList<T>> Patterns { get; }
+
+    /// <summary>
+    /// Matches
+    /// </summary>
+    public IEnumerable<(IReadOnlyList<T> pattern, int position)> Matches(IEnumerable<T> source) {
+      if (source is null)
+        throw new ArgumentNullException(nameof(source));
+
+      int position = 0;
+      Node current = m_Root;
+
+      foreach (T item in source) {
+        position += 1;
+
+        var (node, hasPattern) = current.MoveNext(item);
+
+        current = node ?? m_Root;
+
+        if (hasPattern)
+          foreach (var pattern in current.AllPatterns())
+            yield return (pattern, position - pattern.Count);
+      }
+    }
+
+    #endregion Public
+  }
+
+}
