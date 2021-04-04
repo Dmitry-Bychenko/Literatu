@@ -1,5 +1,7 @@
 # Literatu
 
+[![NuGet version (Literatu)](https://img.shields.io/nuget/v/Literatu.svg?style=flat-square)](https://www.nuget.org/packages/Literatu/) 
+
 Literatų Street is a [pretty little lane](https://en.wikipedia.org/wiki/Literat%C5%B3_Street) in Vilnius. This .Net 5 library contains **character**, **string** and **regular expressions** algorithms. 
 
 ## Some examples:
