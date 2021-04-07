@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Collections.Generic;
 
 namespace Literatu.Text {
 
@@ -82,6 +82,34 @@ namespace Literatu.Text {
       }
 
       return result;
+    }
+
+    /// <summary>
+    /// Lyndon factorization (Duval algorithm) 
+    /// </summary>
+    /// <param name="value">String to factorize</param>
+    /// <returns>Lyndon simple substrings</returns>
+    public static IEnumerable<ReadOnlyMemory<char>> Duval(string value) {
+      if (string.IsNullOrEmpty(value))
+        yield break;
+
+      int n = value.Length;
+
+      ReadOnlyMemory<char> memory = value.AsMemory();
+
+      for (int i = 0; i < n;) {
+        int j = i + 1;
+        int k = i;
+
+        for (; j < n && value[k] <= value[j]; ++j)
+          if (value[k] < value[j])
+            k = i;
+          else
+            k += 1;
+
+        for (; i <= k; i += j - k)
+          yield return memory.Slice(i, j - k);
+      }
     }
 
     #endregion Public
