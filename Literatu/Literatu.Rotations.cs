@@ -22,7 +22,7 @@ namespace Literatu {
     /// </summary>
     /// <param name="value">String to rotate</param>
     /// <param name="shift">Positions to rotate (positive to left, negative to right)</param>
-    public static string Rotate(string value, int shift) {
+    public static string Rotate(this string value, int shift) {
       if (string.IsNullOrEmpty(value))
         return value;
 
