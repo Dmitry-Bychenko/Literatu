@@ -73,6 +73,21 @@ namespace Literatu {
       return result;
     }
 
+    /// <summary>
+    /// Cyclic string character at position
+    /// </summary>
+    /// <param name="value">String</param>
+    /// <param name="index">Index (cyclic)</param>
+    /// <returns></returns>
+    public static char CharAt(this string value, int index) {
+      if (value is null)
+        throw new ArgumentNullException(nameof(value));
+      if (value.Length == 0)
+        throw new ArgumentOutOfRangeException(nameof(index));
+
+      return value[(index % value.Length + value.Length) % value.Length];
+    }
+
     #endregion Public
   }
 
