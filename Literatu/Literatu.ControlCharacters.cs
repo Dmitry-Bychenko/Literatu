@@ -275,20 +275,18 @@ namespace Literatu {
     /// <summary>
     /// Slashed Name, like \n, \r etc.
     /// </summary>
-    public static string SlashedName(char value) {
-      return value switch {
-        '\0' => "\\0",
-        '\a' => "\\a",
-        '\b' => "\\b",
-        '\f' => "\\f",
-        '\n' => "\\n",
-        '\r' => "\\r",
-        '\t' => "\\t",
-        '\v' => "\\v",
-        _ => ""
-      };
-    }
-
+    public static string SlashedName(char value) => value switch {
+      '\0' => "\\0",
+      '\a' => "\\a",
+      '\b' => "\\b",
+      '\f' => "\\f",
+      '\n' => "\\n",
+      '\r' => "\\r",
+      '\t' => "\\t",
+      '\v' => "\\v",
+       _ => ""
+    };
+    
     /// <summary>
     /// Try Parse
     /// </summary>
