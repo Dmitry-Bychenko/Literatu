@@ -192,10 +192,10 @@ namespace Literatu.Collections.Generic {
     #region Algorithm
 
     private (Dictionary<List<T>, Node> direct, Dictionary<Node, List<T>> reverse) CoreBuildDictionaries() {
-      Dictionary<List<T>, Node> direct = new (new SequenceEqualityComparer(Comparer));
-      Dictionary<Node, List<T>> reverse = new ();
+      Dictionary<List<T>, Node> direct = new(new SequenceEqualityComparer(Comparer));
+      Dictionary<Node, List<T>> reverse = new();
 
-      Queue<(Node node, List<T> pattern)> agenda = new ();
+      Queue<(Node node, List<T> pattern)> agenda = new();
 
       agenda.Enqueue((m_Root, new List<T>()));
 
@@ -206,7 +206,7 @@ namespace Literatu.Collections.Generic {
         reverse.Add(node, pattern);
 
         foreach (var pair in node.Edges) {
-          List<T> list = new (pattern) { pair.Key };
+          List<T> list = new(pattern) { pair.Key };
 
           agenda.Enqueue((pair.Value, list));
         }
@@ -216,7 +216,7 @@ namespace Literatu.Collections.Generic {
     }
 
     private HashSet<Node> CoreBuildNodes() {
-      HashSet<Node> result = new () { m_Root };
+      HashSet<Node> result = new() { m_Root };
 
       foreach (var pattern in Patterns) {
         Node node = m_Root;
@@ -240,7 +240,7 @@ namespace Literatu.Collections.Generic {
       (direct, reverse) = CoreBuildDictionaries();
 
       foreach (Node node in nodes) {
-        LinkedList<T> sequence = new (reverse[node]);
+        LinkedList<T> sequence = new(reverse[node]);
 
         while (sequence.Count > 0) {
           sequence.RemoveFirst();

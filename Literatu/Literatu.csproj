@@ -10,7 +10,7 @@
     <PackageProjectUrl>https://github.com/Dmitry-Bychenko/Literatu</PackageProjectUrl>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Literatu.snk.pfx</AssemblyOriginatorKeyFile>
-    <PackageReleaseNotes></PackageReleaseNotes>
+    <PackageReleaseNotes>Natural languages</PackageReleaseNotes>
     <PackageIcon>Literatu.png</PackageIcon>
     <PackageTags>String Algorithms</PackageTags>
     <Copyright>Copyright (c) 2021 by Dmitry Bychenko</Copyright>

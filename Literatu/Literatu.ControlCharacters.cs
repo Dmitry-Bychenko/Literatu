@@ -284,9 +284,9 @@ namespace Literatu {
       '\r' => "\\r",
       '\t' => "\\t",
       '\v' => "\\v",
-       _ => ""
+      _ => ""
     };
-    
+
     /// <summary>
     /// Try Parse
     /// </summary>
