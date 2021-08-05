@@ -263,6 +263,11 @@ namespace Literatu {
     /// </summary>
     public const char SPC = (char)0x20;
 
+    /// <summary>
+    /// Standard replacement: �
+    /// </summary>
+    public const char REPLACEMENT = (char)0xFFFD;
+
     #endregion Constants
 
     #region Public
