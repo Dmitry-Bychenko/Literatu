@@ -199,7 +199,8 @@ namespace Literatu.Natural {
         if (p < 0)
           return Default;
 
-        culture = CultureInfo.GetCultureInfo(culture.Name.Substring(0, p));
+        //culture = CultureInfo.GetCultureInfo(culture.Name.Substring(0, p));
+        culture = CultureInfo.GetCultureInfo(culture.Name[0..p]);
       }
 
       return Default;
