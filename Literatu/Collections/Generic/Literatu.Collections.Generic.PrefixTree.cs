@@ -100,13 +100,13 @@ namespace Literatu.Collections.Generic {
   //-------------------------------------------------------------------------------------------------------------------
   //
   /// <summary>
-  /// Prefix Tree (Trie)
+  /// Prefix Tree (Trie), Generic
   /// </summary>
   /// <typeparam name="T"></typeparam>
   //
   //-------------------------------------------------------------------------------------------------------------------
 
-  public sealed class PrefixTree<T> : IEnumerable<T[]> {
+  public class PrefixTree<T> : IEnumerable<T[]> {
     #region Create
 
     /// <summary>
@@ -246,7 +246,7 @@ namespace Literatu.Collections.Generic {
       if (value is null)
         return false;
 
-      LinkedList<PrefixTreeNode<T>> list = new ();
+      LinkedList<PrefixTreeNode<T>> list = new();
 
       PrefixTreeNode<T> last = Root;
 
@@ -314,17 +314,17 @@ namespace Literatu.Collections.Generic {
     }
 
     /// <summary>
-    /// Words
+    /// Sequences
     /// </summary>
-    public IEnumerable<T[]> Words() {
+    public IEnumerable<T[]> Sequences() {
       if (Root.Items.Count <= 0)
         yield break;
 
-      Stack<PrefixTreeNode<T>> agenda = new ();
+      Stack<PrefixTreeNode<T>> agenda = new();
 
       agenda.Push(Root);
 
-      Dictionary<PrefixTreeNode<T>, PrefixTreeNode<T>> parents = new ();
+      Dictionary<PrefixTreeNode<T>, PrefixTreeNode<T>> parents = new();
 
       parents.Add(Root, null);
 
@@ -332,7 +332,7 @@ namespace Literatu.Collections.Generic {
         var node = agenda.Pop();
 
         if (node.IsFinal) {
-          List<T> list = new ();
+          List<T> list = new();
 
           for (var item = node; item != Root; item = parents[item])
             list.Add(item.Value);
@@ -357,14 +357,36 @@ namespace Literatu.Collections.Generic {
     /// <summary>
     /// Typed Enumerator
     /// </summary>
-    public IEnumerator<T[]> GetEnumerator() => Words().GetEnumerator();
+    public IEnumerator<T[]> GetEnumerator() => Sequences().GetEnumerator();
 
     /// <summary>
     /// Typed Enumerator
     /// </summary>
-    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => Words().GetEnumerator();
+    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => Sequences().GetEnumerator();
 
     #endregion IEnumerable<T[]>
+  }
+
+  //-------------------------------------------------------------------------------------------------------------------
+  //
+  /// <summary>
+  /// Prefix Tree (Trie), Character
+  /// </summary>
+  //
+  //-------------------------------------------------------------------------------------------------------------------
+
+  public sealed class PrefixTree : PrefixTree<char> {
+    #region Public
+
+    /// <summary>
+    /// Words
+    /// </summary>
+    public IEnumerable<string> Words() {
+      foreach (var array in Sequences())
+        yield return new string(array);
+    }
+
+    #endregion Public
   }
 
 }

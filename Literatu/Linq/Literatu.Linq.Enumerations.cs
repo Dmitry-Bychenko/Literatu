@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 namespace Literatu.Linq {
-  
+
   //-------------------------------------------------------------------------------------------------------------------
   //
   /// <summary>
@@ -20,9 +20,9 @@ namespace Literatu.Linq {
       if (string.IsNullOrEmpty(source) || string.IsNullOrEmpty(value))
         yield break;
 
-      for (int index = source.IndexOf(value, startIndex); 
-               index >= 0; 
-               index = source.IndexOf(value, ++index)) 
+      for (int index = source.IndexOf(value, startIndex);
+               index >= 0;
+               index = source.IndexOf(value, ++index))
         yield return index;
     }
 
@@ -38,7 +38,7 @@ namespace Literatu.Linq {
     public static IEnumerable<int> LastIndexesOf(this string source, string value, int startIndex) {
       if (string.IsNullOrEmpty(source) || string.IsNullOrEmpty(value))
         yield break;
-      
+
       for (int index = source.LastIndexOf(value, startIndex);
                index >= 0;
                index = index == 0 ? -1 : source.LastIndexOf(value, --index))

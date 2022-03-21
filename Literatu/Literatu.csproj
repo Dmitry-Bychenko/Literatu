@@ -13,7 +13,7 @@
     <PackageReleaseNotes>Natural languages</PackageReleaseNotes>
     <PackageIcon>Literatu.png</PackageIcon>
     <PackageTags>String Algorithms</PackageTags>
-    <Copyright>Copyright (c) 2021 by Dmitry Bychenko</Copyright>
+    <Copyright>Copyright (c) 2021-2022 by Dmitry Bychenko</Copyright>
     <Authors>Dmitry Bychenko</Authors>
     <Version>1.0.0.5</Version>
   </PropertyGroup>

@@ -22,12 +22,8 @@ namespace Literatu {
       if (value is null)
         throw new ArgumentNullException(nameof(value));
 
-      for (int i = 0; i < value.Length / 2; ++i) {
-        char right = value[value.Length - 1 - i];
-
-        value[value.Length - 1 - i] = value[i];
-        value[i] = right;
-      }
+      for (int i = 0; i < value.Length / 2; ++i)
+        (value[value.Length - 1 - i], value[i]) = (value[i], value[value.Length - 1 - i]);
 
       return value;
     }
