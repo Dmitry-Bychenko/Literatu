@@ -26,8 +26,27 @@ namespace Literatu {
       if (right < 0xDC00 || right > 0xDFFF)
         throw new ArgumentOutOfRangeException(nameof(right));
 
-      // 0xDFFF
       return 0x10000 + (left - 0xD800) * 0x0400 + right - 0xDC00;
+    }
+
+    /// <summary>
+    /// Try to encode surrogates
+    /// </summary>
+    /// <param name="left">left</param>
+    /// <param name="right">right</param>
+    /// <param name="code">encoded value or -1</param>
+    /// <returns>true if succeeded</returns>
+    public static bool TryEncode(char left, char right, out int code) {
+      code = -1;
+
+      if (left < 0xD800 || left > 0xDFFF)
+        return false;
+      if (right < 0xDC00 || right > 0xDFFF)
+        return false;
+
+      code = 0x10000 + (left - 0xD800) * 0x0400 + right - 0xDC00;
+
+      return true;
     }
 
     /// <summary>
@@ -36,7 +55,7 @@ namespace Literatu {
     /// <param name="code"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentOutOfRangeException">When code is out of range</exception>
-    public static (char left, char right) Split(int code) {
+    public static (char left, char right) Decode(int code) {
       if (code < 0x10000)
         throw new ArgumentOutOfRangeException(nameof(code));
 
@@ -47,12 +66,32 @@ namespace Literatu {
     }
 
     /// <summary>
+    /// Split single Emoji code into two chars
+    /// </summary>
+    /// <param name="code">code to split</param>
+    /// <param name="pair">decoded pair</param>
+    /// <returns>true if succeded</returns>
+    public static bool TryDecode(int code, out (char left, char right) pair) {
+      pair = ('\0', '\0');
+
+      if (code < 0x10000)
+        return false;
+
+      pair = (
+        (char)(((code - 0x10000) >> 10) + 0xD800),
+        (char)(((code - 0x10000) & 0b1111_111_111) + 0xDC00)
+      );
+
+      return true;
+    }
+
+    /// <summary>
     /// Decode singe Emoji code into string
     /// </summary>
     /// <param name="code"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentOutOfRangeException">When code is out of range</exception>
-    public static string Decode(int code) {
+    public static string Apply(int code) {
       if (code < 0x10000)
         throw new ArgumentOutOfRangeException(nameof(code));
 
@@ -60,6 +99,26 @@ namespace Literatu {
         (char) (((code - 0x10000) >> 10) + 0xD800),
         (char) (((code - 0x10000) & 0b1111_111_111) + 0xDC00)
       });
+    }
+
+    /// <summary>
+    /// Decode singe Emoji code into string
+    /// </summary>
+    /// <param name="code">Code</param>
+    /// <param name="result">result string or null</param>
+    /// <returns>true if succeeded</returns>
+    public static bool TryApply(int code, out string result) {
+      result = null;
+
+      if (code < 0x10000)
+        return false;
+
+      result = new string(new char[] {
+        (char) (((code - 0x10000) >> 10) + 0xD800),
+        (char) (((code - 0x10000) & 0b1111_111_111) + 0xDC00)
+      });
+
+      return true;
     }
 
     #endregion Public
