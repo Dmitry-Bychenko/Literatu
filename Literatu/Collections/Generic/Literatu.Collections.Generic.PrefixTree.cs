@@ -324,7 +324,7 @@ namespace Literatu.Collections.Generic {
 
       agenda.Push(Root);
 
-      Dictionary<PrefixTreeNode<T>, PrefixTreeNode<T>> parents = new();
+      Dictionary<PrefixTreeNode<T>, PrefixTreeNode<T>> parents = new ();
 
       parents.Add(Root, null);
 
